@@ -4,7 +4,7 @@ import { ResponseStatusCodes } from "../enums/response-status-codes.js";
 import { CustomError } from "../errors/custom-error.js";
 import { ErrorMessages } from "../enums/error-messages.js";
 
-export const getRequestBody = async (req: IncomingMessage): Promise<{}> => {
+export const getRequestBody = async (req: IncomingMessage): Promise<UserDto> => {
     return new Promise((resolve, reject) => {
         const buffer: Uint8Array[] = [];
         req.on('data', (chunk: Uint8Array) => {
@@ -13,7 +13,7 @@ export const getRequestBody = async (req: IncomingMessage): Promise<{}> => {
             const body = Buffer.concat(buffer).toString();
             try {
                 const parsedBody = JSON.parse(body);
-                return resolve(parsedBody ? parsedBody : {} as UserDto);
+                return resolve(parsedBody);
             } catch {
                 reject(new CustomError(ErrorMessages.BAD_REQUEST, ResponseStatusCodes.BAD_REQUEST));
             }
