@@ -54,7 +54,7 @@ export class UserService {
 
     public async deleteUser(id: string): Promise<boolean> {
         const index = this.users.findIndex(user => user.id === id);
-        if (index) {
+        if (index > -1) {
             this.users.splice(index, 1);
             return true;
         }
