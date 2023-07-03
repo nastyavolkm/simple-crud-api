@@ -41,13 +41,13 @@ export class UserService {
         throw new CustomError(ErrorMessages.BAD_REQUEST, ResponseStatusCodes.BAD_REQUEST);
     }
     public async updateUser(itemId: string, item: Partial<User>): Promise<User> {
-        let userForUpdate = this.users.find(({id}) => id === itemId);
-        if (userForUpdate) {
-            userForUpdate = {
-                ...userForUpdate,
+        const index = this.users.findIndex(({id}) => id === itemId);
+        if (index > -1) {
+            this.users[index] = {
+                ...this.users[index],
                 ...item,
             };
-            return userForUpdate;
+            return this.users[index];
         }
         throw new CustomError(getIdErrorMessage(itemId), ResponseStatusCodes.NOT_FOUND);
     }
